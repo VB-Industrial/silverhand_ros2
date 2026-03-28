@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="silverhand">
+  <xacro:include filename="$(find silverhand_arm_description)/urdf/silverhand_macro.urdf.xacro"/>
   <xacro:arg
     name="initial_positions_file"
     default="$(find silverhand_arm_description)/config/initial_positions.yaml"/>
@@ -7,8 +8,9 @@
   <xacro:arg name="can_iface" default="can0"/>
   <xacro:arg name="node_id" default="100"/>
 
-  <xacro:include filename="$(find silverhand_arm_description)/urdf/silverhand.urdf"/>
   <xacro:include filename="$(find silverhand_arm_description)/ros2_control/silverhand.ros2_control.xacro"/>
+
+  <xacro:silverhand_arm prefix=""/>
 
   <xacro:silverhand_ros2_control
     name="SilverhandArmSystem"
