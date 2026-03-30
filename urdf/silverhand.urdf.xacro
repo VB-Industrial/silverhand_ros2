@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="silverhand">
-  <xacro:include filename="$(find silverhand_arm_model)/urdf/silverhand.urdf.xacro"/>
+  <xacro:include filename="$(find silverhand_arm_model)/urdf/silverhand_macro.urdf.xacro"/>
   <xacro:include filename="$(find silverhand_arm_control)/ros2_control/silverhand.ros2_control.xacro"/>
 
   <xacro:arg
