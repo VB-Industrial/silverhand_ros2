@@ -11,7 +11,7 @@ This repository intentionally contains only the lower and middle control layers:
 - controller bringup
 
 Robot geometry, meshes, and RViz model viewing now live in `silverhand_arm_model`.
-Upper-level planning remains in `silverhand_moveit2`.
+Upper-level planning remains in `silverhand_system_bringup`.
 
 ## Prerequisites
 
@@ -70,7 +70,7 @@ or together with upper-level repositories inside a common workspace:
 ```bash
 /home/r/silver_ws/src/silverhand_arm_control
 /home/r/silver_ws/src/silverhand_arm_model
-/home/r/silver_ws/src/silverhand_moveit2
+/home/r/silver_ws/src/silverhand_system_bringup
 ```
 
 ## Build
@@ -122,6 +122,69 @@ Real hardware:
 ros2 launch silverhand_arm_control silverhand_arm_bringup.launch.py use_mock_hardware:=false can_iface:=can0 node_id:=100
 ```
 
+## Helper scripts
+
+Для типового запуска есть helper-скрипты:
+
+```bash
+cd /home/r/silver_ws/src/silverhand_arm_control
+./scripts/start_arm_mock.sh
+./scripts/start_arm_real.sh
+```
+
+Поддерживаемые переменные окружения:
+
+- `ROS_WS` — путь к workspace, по умолчанию определяется как `~/silver_ws`
+- `ROS_DISTRO` — по умолчанию `jazzy`
+- `SILVERHAND_ARM_CAN_IFACE` — по умолчанию `can0`
+- `SILVERHAND_ARM_NODE_ID` — по умолчанию `100`
+
+## systemd
+
+В репозитории лежит user-service template:
+
+- `systemd/user/silverhand-arm-control@.service`
+
+Экземпляры:
+
+- `mock`
+- `real`
+
+Установка:
+
+```bash
+mkdir -p ~/.config/systemd/user
+cp /home/r/silver_ws/src/silverhand_arm_control/systemd/user/silverhand-arm-control@.service ~/.config/systemd/user/
+systemctl --user daemon-reload
+```
+
+Запуск:
+
+```bash
+systemctl --user enable --now silverhand-arm-control@mock.service
+```
+
+или:
+
+```bash
+systemctl --user enable --now silverhand-arm-control@real.service
+```
+
+Автозапуск без логина:
+
+```bash
+loginctl enable-linger "$USER"
+```
+
+Полезные команды:
+
+```bash
+systemctl --user status silverhand-arm-control@mock.service
+journalctl --user -u silverhand-arm-control@mock.service -f
+systemctl --user restart silverhand-arm-control@mock.service
+systemctl --user disable --now silverhand-arm-control@mock.service
+```
+
 ## Parameters
 
 Launch arguments:
@@ -136,7 +199,7 @@ Defaults:
 
 ## Integration
 
-Upper-level packages such as `silverhand_moveit2` depend on:
+Upper-level packages such as `silverhand_system_bringup` depend on:
 - `silverhand_arm_model`
 - `silverhand_arm_control`
 
