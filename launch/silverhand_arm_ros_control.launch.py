@@ -18,7 +18,7 @@ def load_profile(profile_name):
 
 
 def generate_launch_description():
-    mock_profile = load_profile("mock")
+    ros_control_profile = load_profile("ros_control")
     can_iface = LaunchConfiguration("can_iface")
     node_id = LaunchConfiguration("node_id")
     queue_len = LaunchConfiguration("queue_len")
@@ -31,23 +31,23 @@ def generate_launch_description():
         [
             DeclareLaunchArgument(
                 "can_iface",
-                default_value=str(mock_profile["can_iface"]),
-                description="Kept for interface compatibility; ignored by mock hardware.",
+                default_value=str(ros_control_profile["can_iface"]),
+                description="Linux CAN interface used by the Cyphal transport.",
             ),
             DeclareLaunchArgument(
                 "node_id",
-                default_value=str(mock_profile["node_id"]),
-                description="Kept for interface compatibility; ignored by mock hardware.",
+                default_value=str(ros_control_profile["node_id"]),
+                description="Cyphal node id for the ros2_control hardware node.",
             ),
             DeclareLaunchArgument(
                 "queue_len",
-                default_value=str(mock_profile["queue_len"]),
-                description="Kept for interface compatibility; ignored by mock hardware.",
+                default_value=str(ros_control_profile["queue_len"]),
+                description="Cyphal queue length for the ros2_control hardware node.",
             ),
             IncludeLaunchDescription(
                 PythonLaunchDescriptionSource(base_launch),
                 launch_arguments={
-                    "use_mock_hardware": "true",
+                    "use_mock_hardware": "false",
                     "can_iface": can_iface,
                     "node_id": node_id,
                     "queue_len": queue_len,
