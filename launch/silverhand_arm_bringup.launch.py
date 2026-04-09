@@ -23,6 +23,7 @@ def generate_launch_description():
     can_iface = LaunchConfiguration("can_iface")
     node_id = LaunchConfiguration("node_id")
     queue_len = LaunchConfiguration("queue_len")
+    controller_manager_name = "/arm_controller_manager"
 
     description_file = PathJoinSubstitution(
         [FindPackageShare("silverhand_arm_control"), "urdf", "silverhand.urdf.xacro"]
@@ -62,6 +63,7 @@ def generate_launch_description():
     ros2_control_node = Node(
         package="controller_manager",
         executable="ros2_control_node",
+        name="arm_controller_manager",
         output="screen",
         parameters=[robot_description, controllers_file],
         remappings=[("/controller_manager/robot_description", "/robot_description")],
@@ -70,14 +72,14 @@ def generate_launch_description():
     joint_state_broadcaster_spawner = Node(
         package="controller_manager",
         executable="spawner",
-        arguments=["joint_state_broadcaster", "--controller-manager", "/controller_manager"],
+        arguments=["joint_state_broadcaster", "--controller-manager", controller_manager_name],
         output="screen",
     )
 
     arm_controller_spawner = Node(
         package="controller_manager",
         executable="spawner",
-        arguments=["arm_controller", "--controller-manager", "/controller_manager"],
+        arguments=["arm_controller", "--controller-manager", controller_manager_name],
         output="screen",
     )
 
