@@ -156,9 +156,9 @@ namespace silverhand_arm_control
 SilverhandArmSystem::~SilverhandArmSystem() = default;
 
 CallbackReturn SilverhandArmSystem::on_init(
-  const hardware_interface::HardwareComponentInterfaceParams & params)
+  const hardware_interface::HardwareInfo & hardware_info)
 {
-  if (hardware_interface::SystemInterface::on_init(params) != CallbackReturn::SUCCESS) {
+  if (hardware_interface::SystemInterface::on_init(hardware_info) != CallbackReturn::SUCCESS) {
     return CallbackReturn::ERROR;
   }
 

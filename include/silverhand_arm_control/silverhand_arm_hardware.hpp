@@ -6,7 +6,6 @@
 #include <string>
 #include <vector>
 
-#include "hardware_interface/hardware_component_interface.hpp"
 #include "hardware_interface/hardware_info.hpp"
 #include "hardware_interface/system_interface.hpp"
 #include "hardware_interface/types/hardware_interface_return_values.hpp"
@@ -31,7 +30,7 @@ public:
   ~SilverhandArmSystem() override;
 
   CallbackReturn on_init(
-    const hardware_interface::HardwareComponentInterfaceParams & params) override;
+    const hardware_interface::HardwareInfo & hardware_info) override;
 
   CallbackReturn on_configure(const rclcpp_lifecycle::State & previous_state) override;
 

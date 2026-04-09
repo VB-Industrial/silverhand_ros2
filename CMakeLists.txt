@@ -7,25 +7,10 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 find_package(ament_cmake REQUIRED)
 find_package(hardware_interface REQUIRED)
+find_package(libcxxcanard REQUIRED)
 find_package(pluginlib REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rclcpp_lifecycle REQUIRED)
-
-set(
-  LIBCXXCANARD_DIR
-  "${CMAKE_CURRENT_SOURCE_DIR}/third_party/libcxxcanard"
-  CACHE PATH
-  "Path to the libcxxcanard sources used by the Cyphal transport layer"
-)
-
-if(NOT EXISTS "${LIBCXXCANARD_DIR}/CMakeLists.txt")
-  message(FATAL_ERROR
-    "libcxxcanard was not found at ${LIBCXXCANARD_DIR}. "
-    "Run 'git submodule update --init --recursive' in the repository root."
-  )
-endif()
-
-add_subdirectory("${LIBCXXCANARD_DIR}" "${CMAKE_CURRENT_BINARY_DIR}/libcxxcanard")
 
 add_library(${PROJECT_NAME} SHARED src/silverhand_arm_hardware.cpp)
 
@@ -34,19 +19,12 @@ target_include_directories(${PROJECT_NAME} PUBLIC
   $<INSTALL_INTERFACE:include>
 )
 
-target_include_directories(${PROJECT_NAME} PRIVATE
-  "${LIBCXXCANARD_DIR}"
-  "${LIBCXXCANARD_DIR}/libs"
-  "${LIBCXXCANARD_DIR}/src"
-)
-
 target_compile_definitions(${PROJECT_NAME} PRIVATE SILVERHAND_ARM_CONTROL_BUILDING_DLL)
-
-target_link_libraries(${PROJECT_NAME} libcxxcanard)
 
 ament_target_dependencies(
   ${PROJECT_NAME}
   hardware_interface
+  libcxxcanard
   pluginlib
   rclcpp
   rclcpp_lifecycle
@@ -80,6 +58,7 @@ install(
 
 ament_export_dependencies(
   hardware_interface
+  libcxxcanard
   pluginlib
   rclcpp
   rclcpp_lifecycle

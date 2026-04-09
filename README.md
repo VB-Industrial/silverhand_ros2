@@ -17,7 +17,7 @@ Upper-level planning remains in `silverhand_system_bringup`.
 
 - Ubuntu `24.04`
 - ROS 2 `Jazzy`
-- git submodules enabled
+- `libcxxcanard` cloned into the same workspace
 
 Install required ROS packages:
 
@@ -39,21 +39,23 @@ sudo apt-get install -y \
 
 ## Clone
 
-Clone with submodules:
+Clone into a workspace that already contains `libcxxcanard`:
 
 ```bash
-git clone --recurse-submodules <repo-url>
+cd ~/silver_ws/src
+git clone https://github.com/VB-Industrial/libcxxcanard.git
+git clone <repo-url>
 ```
 
-If the repository is already cloned:
+`libcxxcanard` should live next to the package:
 
 ```bash
-git submodule update --init --recursive
+/home/r/silver_ws/src/libcxxcanard
 ```
 
 ## Notes
 
-- The Cyphal transport is vendored as the `third_party/libcxxcanard` git submodule.
+- `libcxxcanard` is a separate workspace prerequisite.
 - Bringup defaults to `use_mock_hardware:=true`, so the stack can be launched without CAN hardware.
 - The control description includes `silverhand_arm_model` and appends the `ros2_control` system block.
 
