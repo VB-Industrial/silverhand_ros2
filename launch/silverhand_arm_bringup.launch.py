@@ -12,6 +12,15 @@ from launch_ros.substitutions import FindPackageShare
 def load_profile(profile_name):
     package_path = get_package_share_directory("silverhand_arm_control")
     profile_path = os.path.join(package_path, "config", "hardware_profiles.yaml")
+    fallback_profiles = {
+        "ros_control": {
+            "can_iface": "can0",
+            "node_id": 100,
+            "queue_len": 1000,
+        }
+    }
+    if not os.path.exists(profile_path):
+        return fallback_profiles[profile_name]
     with open(profile_path, "r", encoding="utf-8") as file:
         profiles = yaml.safe_load(file)["profiles"]
     return profiles[profile_name]
