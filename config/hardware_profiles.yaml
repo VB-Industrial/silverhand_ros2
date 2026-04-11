@@ -4,6 +4,6 @@ profiles:
     node_id: 100
     queue_len: 1000
   ros_control:
-    can_iface: can0
+    can_iface: vcan1.0
     node_id: 100
     queue_len: 1000

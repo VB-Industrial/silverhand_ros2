@@ -13,5 +13,5 @@ set -u
 
 exec ros2 launch silverhand_arm_control silverhand_arm_bringup.launch.py \
   use_mock_hardware:=false \
-  can_iface:="${SILVERHAND_ARM_CAN_IFACE:-can0}" \
+  can_iface:="${SILVERHAND_ARM_CAN_IFACE:-vcan1.0}" \
   node_id:="${SILVERHAND_ARM_NODE_ID:-100}"
